@@ -11,6 +11,8 @@ In this tutorial, you will learn how to use PHP to:
 * Parse and verify the data passed to your webserver, and
 * Use the API to get details of the transaction, if appropriate.
 
+Importantly, all code here is standalone, and does not use Composer to pull in other code. As such it is light-weight and easy to re-use.
+
 ## Reference Information
 * [TransferWise API docs](https://api-docs.transferwise.com/)
 * [TransferWise Webhooks](https://api-docs.transferwise.com/#webhooks)
