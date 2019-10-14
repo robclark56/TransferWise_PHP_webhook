@@ -65,7 +65,7 @@ mail(MY_EMAIL,'TransferWise Callback',$msg);
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
 You should receive an email something like this:
 ```
-File: /home2/freenet/public_html/TransferWise/TransferWise_callback.php
+File: /xxx/xxx/xxx/TransferWise_callback.php
 
 Signature Verified = No
 DATA
@@ -78,4 +78,26 @@ ResourceId=
 1. Login to your TransferWise account (Note: Webhooks will not be called from sandbox accounts)
 1. Goto Settings
 1. Click [Create a new webhook]
-1. Give it a name and enter the URL of the Webhook end-point (i.e. your PHP file)
+1. Give it a name and enter the URL of the Webhook end-point you tested in the step above
+1. Check both **Transfer events** and **Balance events**
+1. Click [Create webhook]
+1. Click [Edit webhook]
+1. Click [Test webhook]
+
+You should see on the TransferWise acct page:  **Everything looks good!**
+
+You should receive an email as below. Unlike the first test, this one says the callback signature was verified, and some data was passed into the callback.
+```
+File: /xxx/xxx/xxx/TransferWise_callback.php
+
+Signature Verified = Yes
+DATA
+stdClass Object
+(
+    [message] => this is a test request
+)
+
+ProfileId = 
+ResourceId= 
+```
+
