@@ -16,7 +16,7 @@ In this tutorial, you will learn how to use PHP to:
 * [TransferWise Webhooks](https://api-docs.transferwise.com/#webhooks)
 
 ## Requirements
-1. A public webserver, responsing to https requests on port 443, and allowing you execute PHP scripts
+1. A public webserver, responding to https requests on port 443, with a valid HTTPS certificate, and allowing you execute PHP scripts
 1. A TransferWise account
 
 ## Create your PHP Endpoint
@@ -29,7 +29,7 @@ In this tutorial, you will learn how to use PHP to:
 define('MY_EMAIL','me@my.email.domain');
 //////// END CHANGE ME ////////////
 
-$msg = 'File: '.__FILE__."\n\n";
+$msg = 'File: '.__FILE__."\n";
 
 // Verify Signature
 //  We use the Public Key that TransferWise shows in their documentation
@@ -51,12 +51,12 @@ $verify    = openssl_verify ($payload , base64_decode($signature) , $pub_key, OP
 $msg .= "\nSignature Verified = ".($verify?'Yes':'No');
 
 $data = json_decode($payload);
-$msg .= "\nDATA\n".print_r($data,1);
+$msg .= "\n\nDATA\n".print_r($data,1);
 
 if(isset($data->profileId)) $profileId  = $data->profileId;
 if(isset($data->resourceId))$resourceId = $data->resourceId;
 $msg .= "\nProfileId = $profileId";
-$msg .= "\nresourceId= $resourceId";
+$msg .= "\nResourceId= $resourceId";
 
 mail(MY_EMAIL,'TransferWise Callback',$msg);
 ?>
@@ -65,11 +65,17 @@ mail(MY_EMAIL,'TransferWise Callback',$msg);
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
 You should receive an email something like this:
 ```
-xxxxx
+File: /home2/freenet/public_html/TransferWise/TransferWise_callback.php
+
+Signature Verified = No
+DATA
+
+ProfileId = 
+ResourceId= 
 ```
 
 ## Create your Webhook
-1. Login to your TransferWise account
+1. Login to your TransferWise account (Note: Webhooks will not be called from sandbox accounts)
 1. Goto Settings
 1. Click [Create a new webhook]
 1. Give it a name and enter the URL of the Webhook end-point (i.e. your PHP file)
