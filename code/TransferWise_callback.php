@@ -5,15 +5,24 @@
 
 //////// CHANGE ME     ////////////
 define('MY_EMAIL','me@my.domain.com');
-//////// END CHANGE ME ////////////
-
-$msg = 'File: '.__FILE__."\n";
 
 // Include the TransferWise class.
 //  See https://github.com/robclark56/TransferWise_PHP_SimpleAPIclass
-//  Edit the line below if needed to correcly locate the class_TransferWise.php file
+//  Typical File Structure
 //
+//   TransferWise
+//       | TransferWise_callback.php  (this file)
+//       | test.php
+//       | includes
+//            | configure.php
+//            | class_TransferWise.php
+//
+//  Edit the line below if needed to correcly locate the class_TransferWise.php file
 include('includes/class_TransferWise.php');
+
+///////// END CHANGE ME ////////////
+
+$msg = 'File: '.__FILE__."\n";
 
 // Verify Signature
 //  See https://api-docs.transferwise.com/#webhooks-events
