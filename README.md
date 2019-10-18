@@ -25,7 +25,7 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 ## Create your PHP Endpoint
 1. Login to your webserver
 1. Create [TransferWise_callback.php](code/TransferWise_callback.php) on your webserver
-1. Edit the CHANGE ME section of TransferWise_callback.php to update the email address, and possibly this line `include('includes/class_TransferWise.php');`
+1. Edit the CHANGE ME section of `TransferWise_callback.php`
 
 ## Test your PHP endpoint
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
