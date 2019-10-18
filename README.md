@@ -31,9 +31,10 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
 You should receive an email something like this:
 ```
-File: /xxx/xxx/xxx/TransferWise_callback.php
+File: /xxx/xxx/TransferWise/TransferWise_callback.php
 
 Signature Verified = No
+
 DATA
 
 ProfileId = 
