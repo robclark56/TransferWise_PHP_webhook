@@ -24,46 +24,9 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 
 ## Create your PHP Endpoint
 1. Login to your webserver
-1. Create a file on your webserver called `TransferWise_callback.php`
-1. Edit and save this file as below. Edit the CHANGE ME section as needed.
-```
-<?php
-//////// CHANGE ME     ////////////
-define('MY_EMAIL','me@my.email.domain');
-//////// END CHANGE ME ////////////
+1. Create [TransferWise_callback.php](code/TransferWise_callback.php) on your webserver
+1. Edit the CHANGE ME section of TransferWise_callback.php to update the email address, and possibly this line `include('includes/class_TransferWise.php');`
 
-$msg = 'File: '.__FILE__."\n";
-
-// Verify Signature
-//  We use the Public Key that TransferWise shows in their documentation
-// See https://api-docs.transferwise.com/#webhooks-events
-$pub_key = 
-"-----BEGIN PUBLIC KEY-----\n".
-'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvO8vXV+JksBzZAY6GhSO
-XdoTCfhXaaiZ+qAbtaDBiu2AGkGVpmEygFmWP4Li9m5+Ni85BhVvZOodM9epgW3F
-bA5Q1SexvAF1PPjX4JpMstak/QhAgl1qMSqEevL8cmUeTgcMuVWCJmlge9h7B1CS
-D4rtlimGZozG39rUBDg6Qt2K+P4wBfLblL0k4C4YUdLnpGYEDIth+i8XsRpFlogx
-CAFyH9+knYsDbR43UJ9shtc42Ybd40Afihj8KnYKXzchyQ42aC8aZ/h5hyZ28yVy
-Oj3Vos0VdBIs/gAyJ/4yyQFCXYte64I7ssrlbGRaco4nKF3HmaNhxwyKyJafz19e
-HwIDAQAB'.
-"\n-----END PUBLIC KEY-----";
-
-$signature = $_SERVER['HTTP_X_SIGNATURE'];
-$payload   = file_get_contents('php://input');
-$verify    = openssl_verify ($payload , base64_decode($signature) , $pub_key, OPENSSL_ALGO_SHA1);
-$msg .= "\nSignature Verified = ".($verify?'Yes':'No');
-
-$data = json_decode($payload);
-$msg .= "\n\nDATA\n".print_r($data,1);
-
-if(isset($data->profileId)) $profileId  = $data->profileId;
-if(isset($data->resourceId))$resourceId = $data->resourceId;
-$msg .= "\nProfileId = $profileId";
-$msg .= "\nResourceId= $resourceId";
-
-mail(MY_EMAIL,'TransferWise Callback',$msg);
-?>
-```
 ## Test your PHP endpoint
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
 You should receive an email something like this:
