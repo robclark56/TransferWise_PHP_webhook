@@ -50,7 +50,10 @@ $msg .= "\nProfileId = $profileId";
 $msg .= "\nResourceId= $resourceId";
 
 if($resourceId){
-    $tw = new TransferWise($profileId);
+    // Create a Read Only instance
+    $tw = new TransferWise($profileId); 
+
+    // Get details of the transfer
     $msg .= "\n\nTRANSFER:\n".print_r(json_decode($tw->getTransferById($resourceId)),1);
 }
 
