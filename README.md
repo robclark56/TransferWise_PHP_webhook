@@ -30,7 +30,8 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 1. Edit the CHANGE ME section of `TransferWise_callback.php`
 
 ## Test your PHP endpoint
-Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise_callback.php
+Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise/TransferWise_callback.php
+
 You should receive an email something like this:
 ```
 File: /xxx/xxx/TransferWise/TransferWise_callback.php
