@@ -20,6 +20,7 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 ## Requirements
 1. A public webserver, responding to https requests on port 443, with a valid HTTPS certificate, and allowing you execute PHP scripts
 1. A TransferWise account
+1. You have previously installed and tested [TransferWise Simple API PHP Class](https://github.com/robclark56/TransferWise_PHP_SimpleAPIclass)
 
 ## Create your PHP Endpoint
 1. Login to your webserver
