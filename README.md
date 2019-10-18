@@ -1,3 +1,5 @@
+# WORK IN PROGRESS
+
 # TransferWise PHP Webhook
 
 ## Introduction
@@ -55,9 +57,10 @@ You should see on the TransferWise acct page:  **Everything looks good!**
 
 You should receive an email as below. Unlike the first test, this one says the callback signature was verified, and some data was passed into the callback.
 ```
-File: /xxx/xxx/xxx/TransferWise_callback.php
+File: /xxx/xxx/TransferWise/TransferWise_callback.php
 
 Signature Verified = Yes
+
 DATA
 stdClass Object
 (
@@ -66,5 +69,11 @@ stdClass Object
 
 ProfileId = 
 ResourceId= 
+```
+
+## Test your Webhook
+Sandbox accounts do NOT call Webhooks. The only way to fully test the webhook is to cause a real financial payment in or out of your TransferWise account. When that happens you should receive an email something like this:
+```
+tba
 ```
 
