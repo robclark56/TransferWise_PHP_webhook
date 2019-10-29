@@ -1,4 +1,5 @@
-# WORK IN PROGRESS
+# WORK IN PROGRESS - TRANSFERWISE HAS RECENTLY MOVED TO V3 API. WAITING ON THEM TO ADD MECHANISM TO CREATE V3 PROFILE WEBHOOKS IN THE ONLINE APP.
+## THEN WILL DOCUMENT HOW TO GET THE ALL IMPORTANT (!) PAYMENT_REFERENCE FOR THE INCOMING PAYMENT USING THE GETSTATEMENT API CALL
 
 # TransferWise PHP Webhook
 
@@ -17,7 +18,7 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 
 ## Reference Information
 * [TransferWise API docs](https://api-docs.transferwise.com/)
-* [TransferWise Webhooks](https://api-docs.transferwise.com/#webhooks)
+* [TransferWise Profile Webhooks](https://api-docs.transferwise.com/#profile-webhooks)
 
 ## Requirements
 1. A public webserver, responding to https requests on port 443, with a valid HTTPS certificate, and allowing you execute PHP scripts
@@ -32,16 +33,9 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 ## Test your PHP endpoint
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise/TransferWise_callback.php
 
-You should receive an email something like this:
+You should see something like this:
 ```
-File: /xxx/xxx/TransferWise/TransferWise_callback.php
-
-Signature Verified = No
-
-DATA
-
-ProfileId = 
-ResourceId= 
+Signature not verified. Exiting 
 ```
 
 ## Create your Webhook
