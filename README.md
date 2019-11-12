@@ -1,6 +1,3 @@
-# WORK IN PROGRESS - TRANSFERWISE HAS RECENTLY MOVED TO V3 API. WAITING ON THEM TO ADD MECHANISM TO CREATE V3 PROFILE WEBHOOKS IN THE ONLINE APP.
-## THEN WILL DOCUMENT HOW TO GET THE ALL IMPORTANT (!) PAYMENT_REFERENCE FOR THE INCOMING PAYMENT USING THE GETSTATEMENT API CALL
-
 # TransferWise PHP Webhook
 
 ## Introduction
@@ -33,9 +30,13 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 ## Test your PHP endpoint
 Use your favorite web browser to go to (e.g.): https://your.webserver.domain/TransferWise/TransferWise_callback.php
 
-You should see something like this:
+You should receive an email like this:
 ```
-Signature not verified. Exiting 
+To: me@my.domain.com
+Subject: TransferWise Callback
+
+File: /xxx/TransferWise/TransferWise_callback.php
+Signature not verified. Exiting
 ```
 
 ## Create your Webhook
@@ -43,32 +44,35 @@ Signature not verified. Exiting
 1. Goto Settings
 1. Click [Create a new webhook]
 1. Give it a name and enter the URL of the Webhook end-point you tested in the step above
-1. Check both **Transfer events** and **Balance events**
+1. Check **Balance deposit events**
 1. Click [Create webhook]
 1. Click [Edit webhook]
 1. Click [Test webhook]
 
 You should see on the TransferWise acct page:  **Everything looks good!**
 
-You should receive an email as below. Unlike the first test, this one says the callback signature was verified, and some data was passed into the callback.
+You should receive an email as below. 
 ```
-File: /xxx/xxx/TransferWise/TransferWise_callback.php
+File: /xxx/TransferWise/TransferWise_callback.php
 
-Signature Verified = Yes
+event_type not set
 
-DATA
+PAYLOAD:
 stdClass Object
 (
     [message] => this is a test request
 )
 
-ProfileId = 
-ResourceId= 
 ```
 
 ## Test your Webhook
-Sandbox accounts do NOT call Webhooks. The only way to fully test the webhook is to cause a real financial payment in or out of your TransferWise account. When that happens you should receive an email something like this:
+Sandbox accounts do NOT call Webhooks. The only way to fully test the webhook is to cause a real financial payment into your TransferWise account. When that happens you should receive an email something like this:
 ```
-tba
+File: /xxx/TransferWise/TransferWise_callback.php
+
+currency=USD
+amount=88
+senderName=FRED BLOGGS
+paymentReference=TEST-1234
 ```
 
