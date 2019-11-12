@@ -48,8 +48,6 @@ if(!$verify){
 
 //Inspect payload
 $payload = json_decode($json);
-//$msg .= "\n\nPAYLOAD\n".print_r($payload,1);
-
 if(!isset($payload->event_type)) {
     $msg .= "\nevent_type not set\n\nPAYLOAD:\n".print_r($payload,1);
     commonExit($msg);
