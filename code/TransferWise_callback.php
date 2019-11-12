@@ -2,6 +2,8 @@
 //
 // Filename: .../TransferWise_callback.php
 //
+// See https://github.com/robclark56/TransferWise_PHP_webhook
+//
 
 //////// CHANGE ME     ////////////
 define('MY_EMAIL','me@my.domain.com');
@@ -17,10 +19,10 @@ define('MY_EMAIL','me@my.domain.com');
 //            | configure.php
 //            | class_TransferWise.php
 //
-//  Edit the line below if needed to correcly locate the class_TransferWise.php file
+//  Edit the line below if needed to correctly locate the class_TransferWise.php file
 include('includes/class_TransferWise.php');
-
 ///////// END CHANGE ME ////////////
+
 
 $msg = 'File: '.__FILE__."\n";
 
@@ -37,25 +39,71 @@ Oj3Vos0VdBIs/gAyJ/4yyQFCXYte64I7ssrlbGRaco4nKF3HmaNhxwyKyJafz19e
 HwIDAQAB';
 $pub_key .="\n-----END PUBLIC KEY-----";
 $signature = $_SERVER['HTTP_X_SIGNATURE'];
-$payload   = file_get_contents('php://input');
-$verify    = openssl_verify ($payload , base64_decode($signature) , $pub_key, OPENSSL_ALGO_SHA1);
-$msg .= "\nSignature Verified = ".($verify?'Yes':'No');
-
-$data = json_decode($payload);
-$msg .= "\n\nDATA\n".print_r($data,1);
-
-if(isset($data->profileId)) $profileId  = $data->profileId;
-if(isset($data->resourceId))$resourceId = $data->resourceId;
-$msg .= "\nProfileId = $profileId";
-$msg .= "\nResourceId= $resourceId";
-
-if($resourceId){
-    // Create a Read Only instance
-    $tw = new TransferWise($profileId); 
-
-    // Get details of the transfer
-    $msg .= "\n\nTRANSFER:\n".print_r(json_decode($tw->getTransferById($resourceId)),1);
+$json      = file_get_contents('php://input');
+$verify    = openssl_verify ($json , base64_decode($signature) , $pub_key, OPENSSL_ALGO_SHA1);
+if(!$verify){
+    $msg .= "Signature not verified. Exiting";
+    commonExit($msg);
 }
 
-mail(MY_EMAIL,'TransferWise Callback',$msg);
+//Inspect payload
+$payload = json_decode($json);
+//$msg .= "\n\nPAYLOAD\n".print_r($payload,1);
+
+if(!isset($payload->event_type)) {
+    $msg .= "\nevent_type not set";
+    commonExit($msg);
+}
+
+
+$profileId = $payload->data->resource->profile_id;
+$tw = new TransferWise($profileId);
+switch($payload->event_type){
+  case 'balances#credit':
+    //See https://api-docs.transferwise.com/#webhook-events-transfer-issue-event
+    $amount        = $payload->data->amount;
+    $currency      = $payload->data->currency;
+    $occurred_at   = rtrim($payload->data->occurred_at,'Z');
+
+    // Get statement for last hour
+    $intervalStart = gmdate("Y-m-d\TH:i:s\Z", strtotime('-1 hour'));
+    $statement     = json_decode($tw->getStatement($currency,'json',$intervalStart));
+        
+    //Go through each transaction to find a match to the transaction in this callback
+    if(isset($statement->transactions) && sizeof($statement->transactions)){
+        foreach($statement->transactions as $transaction){
+            if($amount   != $transaction->amount->value ||
+               $currency != $transaction->amount->currency ||
+               strpos(rtrim($transaction->date,'Z'),$occurred_at) === false
+              ){
+              continue; //Not a match
+            }
+            //Found a match
+            $paymentReference = $transaction->details->paymentReference;
+            $msg .= "\ncurrency=$currency";
+            $msg .= "\namount=$amount";
+            $msg .= "\nsenderName=".$transaction->details->senderName;
+            $msg .= "\npaymentReference=$paymentReference";
+            break;
+        }
+    }
+    break;
+      
+  default:
+    $msg .= "\nNo handler for event_type: $payload->event_type";
+}
+
+if($paymentReference){
+  // [Optional] Add code here as needed to perform
+  //  some action now you know the details of the
+  //  payment.
+}
+
+commonExit($msg);
+
+
+function commonExit($msg){
+ mail(MY_EMAIL,'TransferWise Callback',$msg);
+ exit;
+}
 ?>
