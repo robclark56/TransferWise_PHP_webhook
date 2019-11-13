@@ -7,9 +7,9 @@ If you have a (free) [TransferWise](https://transferwise.com) account, you have 
 
 ## Basic Details
 In this tutorial, you will learn how to use PHP to:
-* Create a webhook that will notify your webserver, 
+* Create a webhook that will notify your webserver on deposits (credits), 
 * Parse and verify the data passed to your webserver, and
-* Use the API to get details of the transaction, if appropriate.
+* Use the API to get details of the transaction.
 
 Importantly, all code here is standalone, and does not use Composer to pull in other code. As such it is light-weight and easy to re-use.
 
@@ -19,7 +19,7 @@ Importantly, all code here is standalone, and does not use Composer to pull in o
 
 ## Requirements
 1. A public webserver, responding to https requests on port 443, with a valid HTTPS certificate, and allowing you execute PHP scripts
-1. A TransferWise account
+1. A [TransferWise account](https://transferwise.com/)
 1. You have previously installed and tested [TransferWise Simple API PHP Class](https://github.com/robclark56/TransferWise_PHP_SimpleAPIclass)
 
 ## Create your PHP Endpoint
