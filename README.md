@@ -13,6 +13,24 @@ In this tutorial, you will learn how to use PHP to:
 
 Importantly, all code here is standalone, and does not use Composer to pull in other code. As such it is light-weight and easy to re-use.
 
+## TransferWise 'Issue' (bug?)
+Occasionally, when the calllback code queries your TransferWise account and gets the latest statement, the transaction details are not (yet) known and the transaction details look like this:
+
+```
+[details] => stdClass Object
+        (
+            [type] => UNKNOWN
+            [description] => No information
+        )
+```
+Here is what TransferWise says about this:
+
+*Current set up of our system though has an issue , the data which populates to statements can be delayed, that is why in some cases you're missing data.*
+
+*The best work around at this moment is to hard code the hold off 1-5 minutes and/or in case of missing data do the delayed retry.* 
+
+*I am in conversations with team, we'll be looking for appropriate solution for this, but can't do an estimate on the time line for it to be delivered*
+
 ## Reference Information
 * [TransferWise API docs](https://api-docs.transferwise.com/)
 * [TransferWise Profile Webhooks](https://api-docs.transferwise.com/#profile-webhooks)
